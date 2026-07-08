@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Stage Lab — Диагностический гид</title>
+<meta name="description" content="Ответьте на 12 вопросов — и увидите, где сильные стороны вашей ситуации, где риски, а где пробелы. Бесплатный диагностический гид Stage Lab.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#100d0a;
+  --ink-soft:#1b1611;
+  --paper:#f6f1e7;
+  --paper-deep:#efe7d8;
+  --gold:#c19a5b;
+  --gold-deep:#9a7233;
+  --muted:#6f6355;
+  --muted-dark:#a89a86;
+  --red:#a33b2e;
+  --green:#5a7d4a;
+  --amber:#b8862f;
+  --line:rgba(16,13,10,.14);
+  --line-light:rgba(246,241,231,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{overflow-x:hidden;max-width:100%}
+body{
+  font-family:'Golos Text',sans-serif;
+  background:
+    radial-gradient(1000px 600px at 75% 0%, rgba(193,154,91,.10), transparent 60%),
+    radial-gradient(700px 500px at 10% 100%, rgba(163,59,46,.06), transparent 60%),
+    var(--ink);
+  color:var(--paper);
+  font-size:17px;line-height:1.65;
+  min-height:100vh;min-height:100svh;
+  -webkit-font-smoothing:antialiased;
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+::selection{background:var(--gold);color:var(--ink)}
+h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif}
+
+.shell{max-width:760px;margin:0 auto;padding:0 22px 80px}
+
+/* ---------- header ---------- */
+.top{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:34px 0 26px;border-bottom:1px solid var(--line-light);margin-bottom:14px;
+}
+.brand{font-family:'Cormorant Garamond',serif;font-size:20px;letter-spacing:.32em;text-transform:uppercase;font-weight:600}
+.brand em{color:var(--gold);font-style:normal}
+.top .tag{font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted-dark)}
+@media(max-width:560px){.top .tag{display:none}}
+
+/* ---------- progress ---------- */
+.progress{height:2px;background:var(--line-light);margin-bottom:52px;position:relative}
+.progress .bar{position:absolute;left:0;top:0;bottom:0;background:var(--gold);width:0;transition:width .45s cubic-bezier(.2,.6,.2,1)}
+.pstep{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted-dark);margin-bottom:18px;font-weight:600}
+.pstep .cat{color:var(--gold)}
+
+/* ---------- screens ---------- */
+.screen{display:none;animation:fadein .5s cubic-bezier(.2,.6,.2,1)}
+.screen.active{display:block}
+@keyframes fadein{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* ---------- intro ---------- */
+.intro h1{font-size:clamp(34px,7vw,54px);line-height:1.1;font-weight:600;letter-spacing:-.01em;margin-bottom:8px}
+.intro h1 em{font-style:italic;color:var(--gold)}
+.intro .slogan{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold);font-size:clamp(17px,2.4vw,21px);margin-bottom:30px}
+.intro p{color:var(--muted-dark);font-size:16.5px;line-height:1.75;max-width:600px;margin-bottom:16px}
+.intro p strong{color:var(--paper);font-weight:600}
+.legend{display:flex;flex-direction:column;gap:10px;margin:34px 0 40px;max-width:520px}
+.legend div{display:flex;gap:14px;align-items:baseline;font-size:15px;color:var(--muted-dark)}
+.legend b{color:var(--paper);font-weight:600}
+.meta-note{font-size:13px;color:var(--muted-dark);margin-top:22px;max-width:520px;line-height:1.7}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-block;cursor:pointer;
+  font-family:'Golos Text',sans-serif;font-weight:600;font-size:15px;letter-spacing:.06em;
+  padding:18px 42px;text-decoration:none;text-transform:uppercase;
+  background:var(--gold);color:var(--ink);border:1px solid var(--gold);
+  transition:background .3s,color .3s,transform .2s;
+}
+.btn:hover{background:transparent;color:var(--gold);transform:translateY(-2px)}
+.btn-ghost{
+  display:inline-block;cursor:pointer;
+  font-family:'Golos Text',sans-serif;font-weight:600;font-size:13px;letter-spacing:.08em;
+  padding:12px 22px;text-decoration:none;text-transform:uppercase;
+  background:transparent;color:var(--muted-dark);border:1px solid var(--line-light);
+  transition:border-color .3s,color .3s;
+}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ---------- question ---------- */
+.qtext{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4.6vw,38px);line-height:1.25;font-weight:600;margin-bottom:12px}
+.qhint{font-size:14.5px;color:var(--muted-dark);line-height:1.7;margin-bottom:36px;max-width:600px}
+.opts{display:flex;flex-direction:column;gap:14px}
+.opt{
+  text-align:left;cursor:pointer;font-family:'Golos Text',sans-serif;
+  background:var(--ink-soft);border:1px solid var(--line-light);color:var(--paper);
+  padding:20px 24px;font-size:16px;line-height:1.55;
+  transition:border-color .25s,background .25s,transform .15s;
+}
+.opt:hover{border-color:var(--gold);background:rgba(193,154,91,.07);transform:translateX(4px)}
+.opt:active{transform:translateX(4px) scale(.995)}
+.qnav{margin-top:34px;display:flex;justify-content:space-between;align-items:center}
+
+/* ---------- results ---------- */
+.res-head h2{font-size:clamp(30px,5.4vw,44px);line-height:1.15;font-weight:600;margin-bottom:14px}
+.res-head h2 em{font-style:italic;color:var(--gold)}
+.res-head p{color:var(--muted-dark);font-size:16px;line-height:1.75;max-width:620px;margin-bottom:44px}
+.rcard{
+  border:1px solid var(--line-light);padding:30px 30px 26px;margin-bottom:18px;
+  background:var(--ink-soft);position:relative;
+}
+.rcard .rtop{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:12px;flex-wrap:wrap}
+.rcard h3{font-size:clamp(19px,2.6vw,24px);font-weight:600}
+.rcard .badge{
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+  padding:7px 14px;border:1px solid;white-space:nowrap;
+}
+.badge.g{color:#9dc08b;border-color:rgba(157,192,139,.45);background:rgba(90,125,74,.14)}
+.badge.y{color:#e3b04b;border-color:rgba(227,176,75,.45);background:rgba(184,134,47,.13)}
+.badge.r{color:#e07a5f;border-color:rgba(224,122,95,.45);background:rgba(163,59,46,.15)}
+.rcard p{font-size:15px;color:var(--muted-dark);line-height:1.75}
+.rcard p strong{color:var(--paper);font-weight:600}
+.verdict{
+  margin:44px 0 0;border:1px solid var(--gold-deep);padding:clamp(28px,4.5vw,44px);
+  background:linear-gradient(140deg, rgba(193,154,91,.09), transparent 60%);
+}
+.verdict h3{font-family:'Cormorant Garamond',serif;font-size:clamp(23px,3.4vw,30px);line-height:1.3;font-weight:600;margin-bottom:16px}
+.verdict h3 em{font-style:italic;color:var(--gold)}
+.verdict p{font-size:15.5px;color:var(--muted-dark);line-height:1.8;margin-bottom:14px}
+.verdict p strong{color:var(--paper);font-weight:600}
+.verdict .cta{margin-top:28px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.verdict .price-note{font-size:13px;color:var(--muted-dark);line-height:1.6;max-width:420px}
+.res-honest{
+  margin-top:36px;padding-top:28px;border-top:1px solid var(--line-light);
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(17px,2.3vw,21px);
+  line-height:1.6;color:var(--muted-dark);max-width:620px;
+}
+.res-honest strong{color:var(--gold);font-weight:600;font-style:normal}
+.restart{margin-top:40px}
+
+footer{margin-top:70px;padding-top:26px;border-top:1px solid var(--line-light);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer p{font-size:12px;color:var(--muted-dark);letter-spacing:.05em}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="top">
+    <div class="brand">Stage<em>&nbsp;Lab</em></div>
+    <div class="tag">Диагностический гид · More Than Talent</div>
+  </div>
+
+  <div class="progress"><div class="bar" id="bar"></div></div>
+
+  <!-- ============ INTRO ============ -->
+  <div class="screen active" id="intro">
+    <div class="intro">
+      <h1>Прежде чем записать ребёнка на очередной кружок — <em>проверьте свою стратегию</em></h1>
+      <p class="slogan">12 вопросов · 3 минуты · честный результат</p>
+      <p>Большинство разочарований в развитии ребёнка рождается не из-за плохих студий и не из-за «неталантливых» детей — а из-за <strong>несовпадения цели и пути</strong>. Этот гид помогает увидеть вашу ситуацию со стороны.</p>
+      <p>Вы ответите на вопросы по четырём направлениям — и по каждому увидите результат:</p>
+      <div class="legend">
+        <div><span>🟢</span><div><b>Сильная сторона</b> — здесь у вас всё выстроено, опирайтесь на это</div></div>
+        <div><span>🟡</span><div><b>Зона риска</b> — здесь легко потерять время и деньги, стоит присмотреться</div></div>
+        <div><span>🔴</span><div><b>Пробел</b> — здесь не хватает системы, и именно отсюда приходят дорогие ошибки</div></div>
+      </div>
+      <button class="btn" onclick="app.start()">Начать диагностику</button>
+      <p class="meta-note">Без email и регистрации. Здесь нет «правильных» ответов — есть ваша реальная ситуация. Отвечайте честно: результат видите только вы.</p>
+    </div>
+  </div>
+
+  <!-- ============ QUESTION ============ -->
+  <div class="screen" id="quiz">
+    <div class="pstep" id="pstep"></div>
+    <div class="qtext" id="qtext"></div>
+    <div class="qhint" id="qhint"></div>
+    <div class="opts" id="opts"></div>
+    <div class="qnav">
+      <button class="btn-ghost" id="backBtn" onclick="app.back()">← Назад</button>
+      <span style="font-size:12px;color:var(--muted-dark);letter-spacing:.1em" id="qcount"></span>
+    </div>
+  </div>
+
+  <!-- ============ RESULTS ============ -->
+  <div class="screen" id="results">
+    <div class="res-head">
+      <h2>Ваша карта: сильные стороны, риски <em>и пробелы</em></h2>
+      <p>Это не оценка вас как родителя. Это снимок текущей ситуации — чтобы следующие решения вы принимали, видя картину целиком.</p>
+    </div>
+    <div id="rcards"></div>
+    <div class="verdict" id="verdict"></div>
+    <p class="res-honest">И честная оговорка: иногда правильный ответ — <strong>«не сейчас»</strong>. Если диагностика показала, что ребёнку рано или цель ещё не ясна, — это тоже результат, который сэкономил вам деньги и годы.</p>
+    <div class="restart"><button class="btn-ghost" onclick="app.restart()">Пройти заново</button></div>
+  </div>
+
+  <footer>
+    <p>Stage Lab · More Than Talent</p>
+    <p>Прототип диагностического гида · Июль 2026</p>
+  </footer>
+</div>
+
+<script>
+const CATS = {
+  goal:      {name:'Цель и путь',        icon:'01'},
+  readiness: {name:'Готовность ребёнка', icon:'02'},
+  industry:  {name:'Знание индустрии',   icon:'03'},
+  materials: {name:'Материалы',          icon:'04'}
+};
+
+/* Каждый ответ: 2 = выстроено, 1 = частично, 0 = пробел */
+const QUESTIONS = [
+  /* -------- Цель и путь -------- */
+  {cat:'goal',
+   q:'Зачем вашему ребёнку его занятия?',
+   hint:'Не «чтобы развивался», а конкретнее: удовольствие, уверенность, профессиональный спорт, актёрская карьера?',
+   opts:[
+     ['У нас есть чёткая цель — и мы понимаем, что для неё нужно',2],
+     ['Есть общее желание «пусть развивается», но цель мы не формулировали',1],
+     ['Честно — не задумывались: все ходят, и мы ходим',0]]},
+  {cat:'goal',
+   q:'Совпадает ли среда, в которой занимается ребёнок, с вашей целью?',
+   hint:'Профессиональная цель требует профессиональной среды. Кружок «для удовольствия» — наоборот, не должен давить.',
+   opts:[
+     ['Да — мы осознанно выбирали окружение под нашу цель',2],
+     ['Выбирали по удобству: рядом с домом, по совету знакомых',1],
+     ['Не знаем, как это вообще оценить',0]]},
+  {cat:'goal',
+   q:'Что должно измениться через полгода занятий?',
+   hint:'Самый недооценённый вопрос: без ориентира невозможно понять, есть ли прогресс.',
+   opts:[
+     ['У нас есть конкретные ориентиры — и мы сверяемся с ними',2],
+     ['Примерно представляем — «будет видно по ходу»',1],
+     ['Не знаем: полностью доверяем тренеру или педагогу',0]]},
+
+  /* -------- Готовность ребёнка -------- */
+  {cat:'readiness',
+   q:'Как ребёнок относится к своим занятиям?',
+   hint:'Интерес ребёнка — топливо любой стратегии. Без него даже идеальный план буксует.',
+   opts:[
+     ['Сам просит, горит, тянет нас за руку',2],
+     ['Нравится, но инициатива в основном наша',1],
+     ['Ходит, потому что записали',0]]},
+  {cat:'readiness',
+   q:'Как ребёнок чувствует себя перед камерой или на сцене?',
+   hint:'Это проверяется не талантом, а комфортом: страх камеры снимается практикой, но о нём надо знать заранее.',
+   opts:[
+     ['Уверенно и естественно — ему это в радость',2],
+     ['Стесняется, но интерес есть',1],
+     ['Избегает — камера и сцена его пугают',0]]},
+  {cat:'readiness',
+   q:'Готов ли ребёнок к отказам — пробам, ожиданию, «нет» без объяснений?',
+   hint:'В актёрстве и спорте отказ — часть процесса, а не исключение. Это разговор, который стоит провести до старта.',
+   opts:[
+     ['Мы говорили об этом — он понимает и готов',2],
+     ['Пока не обсуждали',1],
+     ['Он ранимо реагирует на неудачи — это нас беспокоит',0]]},
+
+  /* -------- Знание индустрии -------- */
+  {cat:'industry',
+   q:'Чем агент отличается от менеджера?',
+   hint:'Один из первых вопросов, на котором родителей ловят недобросовестные «агентства».',
+   opts:[
+     ['Знаем разницу — и кто за что берёт комиссию',2],
+     ['Примерно представляем',1],
+     ['Не знаем',0]]},
+  {cat:'industry',
+   q:'Work Permit и Coogan Account — что это для вас?',
+   hint:'Без этих двух вещей ребёнок не может легально работать в индустрии. Проверьте себя честно.',
+   opts:[
+     ['Знаем, что это, и понимаем порядок действий',2],
+     ['Слышали, но не разбирались',1],
+     ['Впервые видим эти слова',0]]},
+  {cat:'industry',
+   q:'Как вы проверяете студию или агентство перед тем, как заплатить?',
+   hint:'«Красивый сайт и уверенный тон» — самый дорогой критерий выбора в этой индустрии.',
+   opts:[
+     ['Проверяем репутацию вне их сайта: независимые отзывы, договор, условия оплаты',2],
+     ['Читаем их сайт и соцсети, смотрим отзывы там',1],
+     ['Доверяем впечатлению и рекомендациям знакомых',0]]},
+
+  /* -------- Материалы -------- */
+  {cat:'materials',
+   q:'Есть ли у ребёнка профессиональные хедшоты?',
+   hint:'Хедшот — первое, что открывает агентство. Любительское фото часто означает, что дальше заявку не смотрят.',
+   opts:[
+     ['Да, свежие и профессиональные',2],
+     ['Есть хорошие любительские фото',1],
+     ['Нет',0]]},
+  {cat:'materials',
+   q:'Есть ли рилы или записанные self-tape?',
+   hint:'Видео показывает ребёнка в работе. Для агентств это важнее, чем список кружков в резюме.',
+   opts:[
+     ['Да, профессионально снятые',2],
+     ['Есть видео, снятые на телефон',1],
+     ['Нет',0]]},
+  {cat:'materials',
+   q:'Если агентство завтра попросит материалы ребёнка — за сколько вы их соберёте?',
+   hint:'Возможности в индустрии приходят внезапно и не ждут. Готовность материалов — это скорость реакции семьи.',
+   opts:[
+     ['За час: всё собрано и обновлено',2],
+     ['За неделю-две: что-то есть, что-то надо доснять',1],
+     ['Собирать пока не из чего',0]]}
+];
+
+const RESULT_TEXT = {
+  goal:{
+    g:['Цель и путь совпадают','Вы понимаете, зачем ребёнку занятия, и среда выбрана под цель. Это фундамент, которого нет у большинства семей — <strong>любое следующее решение вам будет даваться легче</strong>.'],
+    y:['Цель есть, но путь не сверен','Общее направление вы чувствуете, но цель не сформулирована до конца — а значит, невозможно проверить, ведёт ли туда выбранная среда. Это самая частая точка, где семьи теряют годы: всё «неплохо», но никуда не движется.'],
+    r:['Главный вопрос ещё не задан','Вы пока не отвечали себе на вопрос «зачем?» — и это не упрёк: этот вопрос почти никто себе не задаёт. Но именно с него начинается стратегия. <strong>Пока цель не названа, любой выбор студии — лотерея.</strong>']
+  },
+  readiness:{
+    g:['Ребёнок готов','Интерес, комфорт перед людьми и понимание правил игры — у вашего ребёнка есть главное. Ваша задача — не растерять это топливо на неправильно выбранном пути.'],
+    y:['Готовность стоит проверить','Часть сигналов хорошие, часть — неопределённые. Это не «стоп», это «проверить до больших вложений»: интерес и устойчивость ребёнка развиваются, но план должен учитывать их текущий уровень.'],
+    r:['Сначала — ребёнок, потом — стратегия','Судя по ответам, сейчас двигаться в профессиональную среду рано — и это ценный результат диагностики. Форсирование на этом этапе — самый частый способ отбить у ребёнка желание навсегда. Есть мягкие шаги, которые готовят без давления.']
+  },
+  industry:{
+    g:['Вы понимаете систему','Термины, роли, проверка контрагентов — вы ориентируетесь лучше большинства родителей в индустрии. Ваш риск нарваться на недобросовестных игроков заметно ниже среднего.'],
+    y:['Знаний хватает, чтобы начать — но не чтобы защититься','Вы слышали о ключевых вещах, но в деталях не разбирались. Именно на этом уровне родители чаще всего платят не тем людям: уверенности уже достаточно, а критериев проверки ещё нет.'],
+    r:['Индустрия пока — чёрный ящик','Work Permit, Coogan Account, агенты и менеджеры — пока незнакомая территория. Это нормально для старта, но <strong>двигаться в индустрию без карты дорого</strong>: именно на новичках зарабатывают те, о ком потом пишут «waste of time and money».']
+  },
+  materials:{
+    g:['Материалы готовы','Профессиональные фото и видео под рукой — вы можете реагировать на возможности со скоростью, которая большинству семей недоступна. Следите только за свежестью: дети быстро растут.'],
+    y:['База есть — уровня не хватает','Материалы существуют, но любительский уровень означает, что заявка проигрывает ещё до того, как её рассмотрели. Хорошая новость: это самый быстрозакрываемый пробел из всех.'],
+    r:['Материалов нет — возможности проходят мимо','Если возможность появится завтра, показать будет нечего. Пока это не страшно — если нет цели выходить на рынок. Но при любой амбиции в актёрстве или на камере это первый практический шаг.']
+  }
+};
+
+const app = {
+  i:0,
+  answers:[],
+
+  show(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  },
+
+  start(){
+    this.i=0;this.answers=[];
+    this.show('quiz');this.render();
+  },
+
+  render(){
+    const q=QUESTIONS[this.i];
+    document.getElementById('pstep').innerHTML =
+      '<span class="cat">'+CATS[q.cat].icon+' · '+CATS[q.cat].name+'</span>';
+    document.getElementById('qtext').textContent=q.q;
+    document.getElementById('qhint').textContent=q.hint;
+    const box=document.getElementById('opts');box.innerHTML='';
+    q.opts.forEach((o,idx)=>{
+      const b=document.createElement('button');
+      b.className='opt';b.textContent=o[0];
+      b.onclick=()=>this.answer(o[1]);
+      box.appendChild(b);
+    });
+    document.getElementById('qcount').textContent=(this.i+1)+' / '+QUESTIONS.length;
+    document.getElementById('backBtn').style.visibility=this.i===0?'hidden':'visible';
+    document.getElementById('bar').style.width=(this.i/QUESTIONS.length*100)+'%';
+  },
+
+  answer(score){
+    this.answers[this.i]=score;
+    if(this.i<QUESTIONS.length-1){this.i++;this.render();}
+    else{this.finish();}
+  },
+
+  back(){
+    if(this.i>0){this.i--;this.render();}
+  },
+
+  finish(){
+    document.getElementById('bar').style.width='100%';
+    const totals={goal:0,readiness:0,industry:0,materials:0};
+    QUESTIONS.forEach((q,idx)=>{totals[q.cat]+=this.answers[idx]||0});
+
+    const level=s=> s>=5?'g' : s>=3?'y' : 'r';
+    const badge={g:['🟢','Сильная сторона','g'],y:['🟡','Зона риска','y'],r:['🔴','Пробел','r']};
+
+    let html='';
+    let counts={g:0,y:0,r:0};
+    for(const key of ['goal','readiness','industry','materials']){
+      const lv=level(totals[key]);counts[lv]++;
+      const [emoji,label,cls]=badge[lv];
+      const [title,text]=RESULT_TEXT[key][lv];
+      html+='<div class="rcard">'+
+        '<div class="rtop"><h3>'+emoji+' '+CATS[key].name+': '+title+'</h3>'+
+        '<span class="badge '+cls+'">'+label+'</span></div>'+
+        '<p>'+text+'</p></div>';
+    }
+    document.getElementById('rcards').innerHTML=html;
+
+    /* итоговый вердикт */
+    let vh,vp;
+    if(counts.r===0 && counts.y<=1){
+      vh='Ваша ситуация сильнее, чем у <em>большинства семей</em>';
+      vp='У вас выстроен фундамент — теперь ценность не в базовых знаниях, а в скорости и точности следующих шагов: правильная последовательность действий, инсайдерские детали, отсутствие дорогих обходных путей. Именно это разбирается на Strategy Session.';
+    } else if(counts.r>=2){
+      vh='Сейчас — лучший момент <em>для стратегии</em>';
+      vp='Пробелы, которые показала диагностика, — это не приговор, а карта. Хорошая новость: вы увидели их <strong>до</strong> того, как заплатили за неправильный путь. 90 минут Strategy Session превращают эту карту в конкретную дорожную: что делать первым, что — потом, а что не делать вовсе.';
+    } else {
+      vh='У вас есть база — и есть места, где легко <em>потерять время и деньги</em>';
+      vp='Ваша ситуация типична для думающих семей: часть выстроена, часть держится на интуиции. Именно в «жёлтых» зонах чаще всего оплачиваются чужие обещания. На Strategy Session мы разберём ваш конкретный случай и выстроим последовательность шагов под вашу цель.';
+    }
+    document.getElementById('verdict').innerHTML=
+      '<h3>'+vh+'</h3><p>'+vp+'</p>'+
+      '<p><strong>Strategy Session — 90 минут лично с основательницей:</strong> 30 минут разбираем ваш путь (включая результаты этой диагностики), 60 минут строим персональную дорожную карту.</p>'+
+      '<div class="cta"><a class="btn" href="#" onclick="return false">Записаться — $250</a>'+
+      '<span class="price-note">Если по итогам сессии окажется, что вам это не нужно, — мы так и скажем. Иногда правильный ответ — «нет», и это тоже успешная консультация.</span></div>';
+
+    this.show('results');
+  },
+
+  restart(){
+    this.i=0;this.answers=[];
+    document.getElementById('bar').style.width='0%';
+    this.show('intro');
+  }
+};
+</script>
+</body>
+</html>
