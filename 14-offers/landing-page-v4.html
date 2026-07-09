@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<script>document.documentElement.classList.add('js')</script>
+<title>Stage Lab — More Than Talent</title>
+<meta name="description" content="Stage Lab помогает родителям принимать профессиональные решения, которые формируют будущее ребёнка. Главная экспертиза — актёрская индустрия США.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#100d0a;
+  --ink-soft:#1b1611;
+  --paper:#f6f1e7;
+  --paper-deep:#efe7d8;
+  --gold:#c19a5b;
+  --gold-deep:#9a7233;
+  --cream:#efe3cc;
+  --muted:#6f6355;
+  --muted-dark:#a89a86;
+  --red:#a33b2e;
+  --line:rgba(16,13,10,.14);
+  --line-light:rgba(246,241,231,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{overflow-x:hidden;max-width:100%}
+body{
+  font-family:'Golos Text',sans-serif;
+  background:var(--ink);
+  color:var(--paper);
+  font-size:17px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg,table{max-width:100%}
+::selection{background:var(--gold);color:var(--ink)}
+
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+.wrap-narrow{max-width:820px;margin:0 auto;padding:0 24px}
+
+/* reveal: hidden only when JS confirmed; no .rv rule above .rv.on specificity */
+.js .rv{opacity:0;transform:translateY(26px)}
+.rv{transition:opacity .9s cubic-bezier(.2,.6,.2,1),transform .9s cubic-bezier(.2,.6,.2,1)}
+.rv.on{opacity:1;transform:none}
+.rv.d1{transition-delay:.12s}.rv.d2{transition-delay:.24s}.rv.d3{transition-delay:.36s}
+
+.kicker{
+  display:flex;align-items:center;gap:14px;
+  font-size:12px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:28px;
+}
+.kicker::before{content:"";width:44px;height:1px;background:var(--gold)}
+.kicker .num{color:inherit;opacity:.6;letter-spacing:.1em}
+
+h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif}
+h2{font-size:clamp(34px,4.6vw,52px);font-weight:600;line-height:1.12;letter-spacing:-.01em}
+h3{font-size:clamp(22px,2.6vw,28px);font-weight:600;line-height:1.25}
+
+section{padding:110px 0}
+@media(max-width:700px){section{padding:76px 0}}
+
+.dark{background:var(--ink);color:var(--paper)}
+.light{background:var(--paper);color:var(--ink)}
+.light .kicker{color:var(--gold-deep)}
+.light .kicker::before{background:var(--gold-deep)}
+.light-deep{background:var(--paper-deep);color:var(--ink)}
+.light-deep .kicker{color:var(--gold-deep)}
+.light-deep .kicker::before{background:var(--gold-deep)}
+
+.btn{
+  display:inline-block;position:relative;
+  font-family:'Golos Text',sans-serif;font-weight:600;font-size:15px;letter-spacing:.06em;
+  padding:19px 40px;text-decoration:none;text-transform:uppercase;
+  background:var(--gold);color:var(--ink);border:1px solid var(--gold);
+  transition:background .3s,color .3s,transform .2s;
+}
+.btn:hover{background:transparent;color:var(--gold);transform:translateY(-2px)}
+.btn-ghost{
+  display:inline-block;position:relative;
+  font-family:'Golos Text',sans-serif;font-weight:600;font-size:15px;letter-spacing:.06em;
+  padding:19px 40px;text-decoration:none;text-transform:uppercase;
+  background:transparent;color:var(--paper);border:1px solid var(--line-light);
+  transition:border-color .3s,color .3s,transform .2s;
+}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.light .btn,.light-deep .btn{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.light .btn:hover,.light-deep .btn:hover{background:transparent;color:var(--ink)}
+.light .btn-ghost,.light-deep .btn-ghost{color:var(--ink);border-color:var(--line)}
+.light .btn-ghost:hover,.light-deep .btn-ghost:hover{border-color:var(--gold-deep);color:var(--gold-deep)}
+.btn-note{margin-top:16px;font-size:13.5px;color:var(--muted-dark);max-width:460px;line-height:1.55}
+.light .btn-note,.light-deep .btn-note{color:var(--muted)}
+.cta-pair{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+
+/* ============ HERO ============ */
+.hero{
+  min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+  position:relative;overflow:hidden;padding:130px 0 100px;
+  background:
+    radial-gradient(1000px 600px at 75% 8%, rgba(193,154,91,.13), transparent 60%),
+    radial-gradient(700px 500px at 12% 90%, rgba(163,59,46,.07), transparent 60%),
+    var(--ink);
+}
+.hero::before,.hero::after{
+  content:"";position:absolute;left:0;right:0;height:14px;background:#000;z-index:2;
+}
+.hero::before{top:0}.hero::after{bottom:0}
+.hero-brand{
+  position:absolute;top:44px;left:0;right:0;z-index:3;
+  display:flex;justify-content:space-between;align-items:baseline;
+}
+.brand{font-family:'Cormorant Garamond',serif;font-size:22px;letter-spacing:.34em;text-transform:uppercase;font-weight:600;color:var(--paper)}
+.brand em{color:var(--gold);font-style:normal}
+.hero-tag{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted-dark)}
+@media(max-width:700px){.hero-tag{display:none}}
+.hero-slogan{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.4vw,26px);font-style:italic;
+  color:var(--gold);letter-spacing:.04em;margin-bottom:26px;
+}
+.hero-h1{
+  font-size:clamp(38px,6.4vw,74px);line-height:1.08;font-weight:600;letter-spacing:-.015em;
+  max-width:21ch;
+}
+.hero-h1 em{font-style:italic;color:var(--gold)}
+.hero-exp{
+  margin-top:28px;font-size:clamp(17px,2vw,21px);color:var(--paper);
+  border-left:1px solid var(--gold);padding-left:20px;max-width:560px;line-height:1.6;
+}
+.hero-exp strong{color:var(--gold);font-weight:600}
+.hero-nos{margin-top:44px;display:flex;gap:34px;flex-wrap:wrap}
+.hero-nos .no{
+  font-size:13.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-dark);
+  display:flex;align-items:center;gap:10px;
+}
+.hero-nos .no::before{content:"—";color:var(--gold)}
+.hero-sub{margin-top:54px}
+.hero-sub .map{font-size:15.5px;color:var(--muted-dark);margin-bottom:28px;max-width:520px;line-height:1.7}
+
+/* ============ WHY ============ */
+.why-lead{font-size:clamp(18px,2.1vw,22px);line-height:1.7;max-width:740px;margin-top:8px}
+.why-q{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(64px,11vw,140px);font-weight:600;
+  color:var(--gold-deep);line-height:1;margin:44px 0 40px;font-style:italic;
+}
+.goals{
+  display:grid;grid-template-columns:1fr 1fr;gap:0 60px;max-width:840px;margin-top:10px;
+}
+@media(max-width:700px){.goals{grid-template-columns:1fr}}
+.goals p{padding:15px 0;border-bottom:1px solid var(--line);font-size:16px;color:var(--ink)}
+.why-verdict{margin-top:56px;max-width:760px}
+.why-verdict p{font-size:16.5px;line-height:1.8;color:var(--muted);margin-bottom:18px}
+.why-verdict .core{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3vw,32px);line-height:1.4;font-weight:600;
+  color:var(--ink);border-left:2px solid var(--gold-deep);padding-left:24px;margin-top:34px;
+}
+.why-verdict .core em{font-style:italic;color:var(--gold-deep)}
+
+/* ============ QUESTIONS ============ */
+.qgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line-light);border:1px solid var(--line-light);margin-top:56px}
+@media(max-width:760px){.qgrid{grid-template-columns:1fr}}
+.q{background:var(--ink);padding:34px 34px 30px}
+.q p{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.3vw,25px);line-height:1.35;font-weight:500;font-style:italic;color:var(--paper)}
+.q span{display:block;margin-top:12px;font-family:'Golos Text',sans-serif;font-size:13.5px;font-style:normal;color:var(--muted-dark);line-height:1.6}
+.no-answer{
+  margin-top:64px;border:1px solid var(--gold-deep);padding:clamp(30px,4vw,50px);
+  background:linear-gradient(120deg, rgba(193,154,91,.08), transparent 60%);
+}
+.no-answer p.big{font-family:'Cormorant Garamond',serif;font-size:clamp(23px,3vw,32px);line-height:1.4;font-weight:600}
+.no-answer p.big em{color:var(--gold);font-style:italic}
+.no-answer p.small{margin-top:16px;font-size:15px;color:var(--muted-dark);line-height:1.75;max-width:640px}
+
+/* ============ STORY ============ */
+.story-open{max-width:760px;margin-top:8px}
+.story-open p{font-size:clamp(17px,2vw,20px);line-height:1.75;margin-bottom:16px}
+.story-open .iam{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3.4vw,38px);line-height:1.3;font-weight:600;margin-bottom:26px}
+.story-open .iam em{font-style:italic;color:var(--gold-deep)}
+.mistakes{margin:50px 0 0;max-width:640px}
+.mistakes p{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(21px,2.6vw,27px);font-style:italic;font-weight:500;
+  line-height:1.45;padding:16px 0 16px 26px;border-left:2px solid var(--red);color:var(--ink);
+}
+.turn{margin-top:60px;padding-top:44px;border-top:1px solid var(--line);max-width:760px}
+.turn p{font-size:16.5px;line-height:1.8;color:var(--muted);margin-bottom:16px}
+.turn p strong{color:var(--ink);font-weight:600}
+.story-res{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:56px}
+@media(max-width:800px){.story-res{grid-template-columns:1fr}}
+.story-res .cell{background:var(--paper);padding:38px 32px}
+.story-res .big{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,4.2vw,54px);line-height:1;color:var(--gold-deep);font-weight:600}
+.story-res .big small{font-size:.42em;letter-spacing:.04em}
+.story-res p{font-size:14.5px;color:var(--muted);line-height:1.65;margin-top:14px}
+.story-discovery{
+  margin-top:52px;font-family:'Cormorant Garamond',serif;font-size:clamp(21px,2.6vw,27px);
+  font-style:italic;line-height:1.5;max-width:36ch;color:var(--ink);
+}
+.story-discovery strong{color:var(--gold-deep);font-weight:600;font-style:normal}
+
+/* ============ METHOD (взаимное усиление) ============ */
+.mirror{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-light);
+  border:1px solid var(--line-light);margin-top:60px;
+}
+@media(max-width:760px){.mirror{grid-template-columns:1fr}}
+.mirror-col{background:var(--ink);padding:40px 36px}
+.mirror-col .mlabel{font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px}
+.mirror-col h3{margin-bottom:22px;color:var(--paper)}
+.mirror-col ul{list-style:none}
+.mirror-col li{padding:9px 0 9px 24px;position:relative;font-size:15px;color:var(--muted-dark);border-bottom:1px solid rgba(246,241,231,.07)}
+.mirror-col li::before{content:"→";position:absolute;left:0;color:var(--gold-deep)}
+.mirror-col li:last-child{border-bottom:none}
+.method-lead{max-width:780px;font-size:clamp(17px,2vw,20px);line-height:1.75;color:var(--paper);margin-top:6px}
+.method-lead strong{color:var(--gold)}
+.any-list{margin-top:44px;display:flex;flex-wrap:wrap;gap:10px;max-width:760px}
+.any-list span{
+  font-size:13.5px;letter-spacing:.05em;color:var(--muted-dark);
+  border:1px solid var(--line-light);padding:9px 18px;
+}
+.method-note{
+  margin-top:48px;font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(20px,2.4vw,25px);line-height:1.5;color:var(--paper);max-width:720px;
+}
+.method-note strong{color:var(--gold);font-weight:600;font-style:normal}
+
+/* ============ MODERN (почему актёрство) ============ */
+.skills{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:60px}
+@media(max-width:920px){.skills{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.skills{grid-template-columns:1fr}}
+.skill{background:var(--paper);padding:30px 26px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between;gap:14px}
+.skill .n{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold-deep)}
+.skill p{font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.4}
+.skill span{font-size:13px;color:var(--muted);line-height:1.55;font-weight:400}
+.modern-note{
+  margin-top:48px;font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(20px,2.4vw,25px);line-height:1.5;color:var(--ink);max-width:720px;
+}
+.modern-note strong{color:var(--gold-deep);font-weight:600;font-style:normal}
+
+/* ============ CHILD BRAND ============ */
+.brand-lead{max-width:780px;font-size:clamp(17px,2vw,20px);line-height:1.75;color:var(--paper);margin-top:6px}
+.brand-lead strong{color:var(--gold)}
+.brand-triptych{margin:54px 0 0;max-width:760px}
+.brand-triptych p{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(23px,3vw,32px);line-height:1.35;font-weight:600;
+  padding:18px 0;border-bottom:1px solid var(--line-light);color:var(--paper);
+}
+.brand-triptych p em{font-style:italic;color:var(--gold)}
+.brand-list{
+  margin-top:46px;display:grid;grid-template-columns:1fr 1fr;gap:0 60px;max-width:860px;
+}
+@media(max-width:700px){.brand-list{grid-template-columns:1fr}}
+.brand-list p{padding:13px 0;border-bottom:1px solid var(--line-light);font-size:15.5px;color:var(--paper)}
+.brand-list p::before{content:"— ";color:var(--gold)}
+.brand-honest{margin-top:44px;font-size:15px;color:var(--muted-dark);line-height:1.8;max-width:680px;font-style:italic}
+
+/* ============ FLAGSHIP EXPERTISE ============ */
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:56px}
+@media(max-width:900px){.pains{grid-template-columns:1fr}}
+.pain{background:var(--paper);padding:44px 36px 40px;display:flex;flex-direction:column;position:relative;transition:background .35s}
+.pain:hover{background:var(--paper-deep)}
+.pain .idx{font-family:'Cormorant Garamond',serif;font-size:64px;line-height:1;color:var(--gold);font-weight:500;margin-bottom:24px}
+.pain h3{margin-bottom:18px}
+.pain blockquote{
+  font-family:'Cormorant Garamond',serif;font-size:19.5px;line-height:1.45;font-style:italic;font-weight:500;
+  color:var(--ink);margin:0 0 16px;padding-left:18px;border-left:2px solid var(--gold);
+}
+.pain cite{display:block;font-family:'Golos Text',sans-serif;font-size:12.5px;font-style:normal;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;padding-left:20px}
+.pain p{font-size:15px;color:var(--muted);line-height:1.7}
+.flag-lead{max-width:800px;font-size:clamp(17px,2vw,20px);line-height:1.75;color:var(--ink);margin-top:6px}
+.flag-list{
+  margin-top:46px;display:grid;grid-template-columns:1fr 1fr;gap:0 60px;max-width:860px;
+}
+@media(max-width:700px){.flag-list{grid-template-columns:1fr}}
+.flag-list p{padding:13px 0;border-bottom:1px solid var(--line);font-size:15.5px;color:var(--ink)}
+.flag-list p::before{content:"— ";color:var(--gold-deep)}
+.vertical{
+  margin-top:64px;border:1px solid var(--line);padding:clamp(28px,4vw,44px);
+  background:var(--paper-deep);
+}
+.vertical .vlabel{font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;margin-bottom:14px}
+.vertical h3{margin-bottom:14px}
+.vertical p{font-size:15.5px;color:var(--muted);line-height:1.75;max-width:720px}
+
+/* ============ TEAM & COACHES ============ */
+.team-lead{max-width:780px;font-size:clamp(17px,2vw,20px);line-height:1.75;color:var(--paper);margin-top:6px}
+.team-lead strong{color:var(--gold)}
+.team-roles{margin-top:44px;display:flex;flex-wrap:wrap;gap:10px;max-width:820px}
+.team-roles span{
+  font-size:13.5px;letter-spacing:.05em;color:var(--muted-dark);
+  border:1px solid var(--line-light);padding:9px 18px;
+}
+.team-roles span.you{border-color:var(--gold);color:var(--gold)}
+.strategist{
+  margin-top:56px;border-left:2px solid var(--gold);padding-left:26px;max-width:720px;
+}
+.strategist p{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.4vw,26px);font-style:italic;line-height:1.5;color:var(--paper)}
+.coaches{
+  margin-top:64px;border:1px solid var(--gold-deep);padding:clamp(28px,4vw,44px);
+  background:linear-gradient(120deg, rgba(193,154,91,.08), transparent 60%);
+}
+.coaches .clabel{font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:14px}
+.coaches h3{margin-bottom:16px;color:var(--paper)}
+.coaches p{font-size:15.5px;color:var(--muted-dark);line-height:1.8;max-width:720px;margin-bottom:12px}
+.coaches p strong{color:var(--paper)}
+.coaches .fine{font-size:13.5px;font-style:italic;margin-top:6px}
+
+/* ============ PRS ============ */
+.prs-quote{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3.6vw,42px);line-height:1.3;font-weight:600;
+  max-width:22ch;margin-top:8px;
+}
+.prs-quote em{font-style:italic;color:var(--gold-deep)}
+.prs-lead{margin-top:28px;font-size:16.5px;color:var(--muted);line-height:1.8;max-width:720px}
+.prs-parts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:56px}
+@media(max-width:860px){.prs-parts{grid-template-columns:1fr}}
+.prs-part{background:var(--paper);padding:36px 32px}
+.prs-part .label{font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;margin-bottom:16px}
+.prs-part h3{margin-bottom:12px;font-size:clamp(19px,2.2vw,23px)}
+.prs-part p{font-size:14.5px;color:var(--muted);line-height:1.7}
+.prs-contrast{margin-top:52px;border-left:2px solid var(--gold-deep);padding-left:26px;max-width:720px}
+.prs-contrast p{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.4vw,25px);font-style:italic;line-height:1.5;color:var(--ink)}
+
+/* ============ LADDER ============ */
+.ladder{margin-top:60px}
+.rung{
+  display:grid;grid-template-columns:120px 1fr auto;gap:30px;align-items:baseline;
+  padding:32px 0;border-top:1px solid var(--line-light);
+}
+.rung:last-of-type{border-bottom:1px solid var(--line-light)}
+@media(max-width:760px){.rung{grid-template-columns:1fr;gap:8px;padding:26px 0}}
+.rung .stage{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted-dark);font-weight:600;padding-top:6px}
+.rung h3{color:var(--paper);margin-bottom:8px}
+.rung .desc{font-size:14.5px;color:var(--muted-dark);line-height:1.7;max-width:560px}
+.rung .price{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3vw,36px);color:var(--gold);font-weight:600;white-space:nowrap;text-align:right}
+.rung .price small{display:block;font-family:'Golos Text',sans-serif;font-size:12px;color:var(--muted-dark);font-weight:400;letter-spacing:.04em;margin-top:4px;white-space:normal}
+@media(max-width:760px){.rung .price{text-align:left}}
+.rung.flagship{
+  background:linear-gradient(120deg, rgba(193,154,91,.09), transparent 60%);
+  border:1px solid rgba(193,154,91,.4);padding:32px 28px;margin:0 -28px;
+}
+@media(max-width:760px){.rung.flagship{margin:0;padding:26px 20px}}
+.rung.flagship .stage{color:var(--gold)}
+.flag-includes{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:4px 28px;max-width:600px}
+@media(max-width:600px){.flag-includes{grid-template-columns:1fr}}
+.flag-includes span{font-size:13.5px;color:var(--muted-dark);line-height:1.6}
+.flag-includes span::before{content:"— ";color:var(--gold)}
+.alacarte{margin-top:70px}
+.alacarte .cap{font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted-dark);font-weight:600;margin-bottom:20px}
+.ala-row{
+  display:flex;justify-content:space-between;gap:24px;align-items:baseline;
+  padding:16px 0;border-bottom:1px solid var(--line-light);
+}
+.ala-row .what{font-size:15.5px;color:var(--paper)}
+.ala-row .what span{display:block;font-size:13px;color:var(--muted-dark);margin-top:2px}
+.ala-row .p{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);white-space:nowrap}
+
+/* ============ GUARANTEE ============ */
+.guarantee{
+  border:1px solid var(--gold-deep);padding:clamp(36px,5vw,64px);position:relative;margin-top:56px;
+  background:linear-gradient(160deg, rgba(193,154,91,.07), transparent 55%);
+}
+.guarantee .seal{
+  position:absolute;top:-34px;right:40px;width:96px;height:96px;border-radius:50%;
+  background:var(--ink);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;
+  animation:spin 26s linear infinite;
+}
+@media(max-width:700px){.guarantee .seal{width:74px;height:74px;top:-28px;right:20px}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.guarantee h3{font-size:clamp(26px,3.2vw,36px);margin-bottom:26px;color:var(--ink)}
+.guarantee ul{list-style:none;margin:0 0 26px}
+.guarantee li{padding:12px 0 12px 34px;position:relative;font-size:16px;border-bottom:1px solid var(--line)}
+.guarantee li::before{content:"—";position:absolute;left:0;color:var(--gold-deep);font-weight:700}
+.guarantee .promise{font-family:'Cormorant Garamond',serif;font-size:clamp(21px,2.6vw,26px);line-height:1.5;font-weight:600}
+.guarantee .honest{margin-top:26px;padding-top:24px;border-top:1px solid var(--line);font-size:15px;color:var(--muted);line-height:1.75;font-style:italic}
+
+/* ============ FOUNDER'S PROMISE + FINAL ============ */
+.final{
+  text-align:center;padding:150px 0 140px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(900px 500px at 50% 110%, rgba(193,154,91,.15), transparent 65%),
+    var(--ink);
+}
+.final .nots{margin:0 auto 34px;max-width:560px}
+.final .nots p{
+  font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-dark);
+  padding:10px 0;border-bottom:1px solid var(--line-light);
+}
+.final .fp{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3vw,32px);font-style:italic;
+  color:var(--paper);max-width:40ch;margin:0 auto 20px;line-height:1.55;
+}
+.final .fp strong{color:var(--gold);font-weight:600;font-style:normal}
+.final .fp-who{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-dark);margin-bottom:48px}
+.final .manifest{
+  font-size:15.5px;color:var(--muted-dark);max-width:640px;margin:0 auto 52px;line-height:1.8;
+}
+.final .cta-pair{justify-content:center}
+.final .note{margin-top:26px;font-size:13px;color:var(--muted-dark);max-width:520px;margin-left:auto;margin-right:auto;line-height:1.7}
+
+/* ============ FAQ ============ */
+.faq{margin-top:56px}
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{
+  cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:30px;
+  padding:30px 4px;font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.4vw,26px);font-weight:600;
+  transition:color .25s;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{color:var(--gold-deep)}
+.faq summary .pm{
+  flex:none;width:34px;height:34px;border:1px solid var(--gold-deep);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-family:'Golos Text',sans-serif;font-size:17px;color:var(--gold-deep);
+  transition:transform .35s,background .3s,color .3s;
+}
+.faq details[open] summary .pm{transform:rotate(45deg);background:var(--gold-deep);color:var(--paper)}
+.faq .a{padding:0 4px 34px;max-width:700px;color:var(--muted);font-size:15.5px;line-height:1.8}
+
+footer{padding:54px 0;border-top:1px solid var(--line-light);background:#000}
+.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:baseline}
+.foot .brand{font-size:17px}
+.foot p{font-size:12.5px;color:var(--muted-dark);letter-spacing:.06em}
+</style>
+</head>
+<body>
+
+<!-- ============ 1. HERO ============ -->
+<header class="hero">
+  <div class="wrap hero-brand">
+    <div class="brand">Stage<em>&nbsp;Lab</em></div>
+    <div class="hero-tag">Boutique Child Development Agency · Los Angeles</div>
+  </div>
+  <div class="wrap">
+    <div class="hero-slogan rv">More Than Talent.</div>
+    <h1 class="hero-h1 rv d1">Помогаем родителям принимать <em>профессиональные решения</em>, которые формируют будущее ребёнка</h1>
+    <p class="hero-exp rv d2">Главная экспертиза — <strong>актёрская индустрия США</strong>: стратегия, документы, материалы, выход на рынок и честная навигация без посредников-однодневок.</p>
+
+    <div class="hero-nos rv d2">
+      <div class="no">Без ложных обещаний</div>
+      <div class="no">Без дорогих ошибок</div>
+      <div class="no">Без лет на неверном пути</div>
+    </div>
+
+    <div class="hero-sub rv d3">
+      <p class="map">Только персональная стратегия, построенная вокруг вашего ребёнка — его сильных сторон, целей и реальной готовности.</p>
+      <div class="cta-pair">
+        <a class="btn" href="#services">Strategy Session — $250</a>
+        <a class="btn-ghost" href="#diagnostic">Бесплатная диагностика</a>
+      </div>
+      <p class="btn-note">90 минут лично с основательницей — или начните с бесплатной диагностической карты: ответьте на вопросы и увидите сильные стороны, риски и пробелы вашей ситуации.</p>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 2. ЗАЧЕМ? ============ -->
+<section class="light">
+  <div class="wrap">
+    <div class="kicker rv"><span class="num">01</span> Вопрос, который почти никто себе не задаёт</div>
+    <h2 class="rv d1">Прежде чем записать ребёнка на очередной кружок…</h2>
+    <div class="why-q rv d2">Зачем?</div>
+    <p class="why-lead rv d2">Это может показаться странным. Но именно ответ на этот вопрос определит все последующие решения. Вы хотите, чтобы ребёнок:</p>
+
+    <div class="goals rv d2">
+      <p>просто интересно проводил время после школы</p>
+      <p>больше двигался</p>
+      <p>нашёл друзей</p>
+      <p>стал увереннее в себе</p>
+      <p>научился выступать перед людьми</p>
+      <p>вырос профессиональным спортсменом</p>
+      <p>попробовал построить актёрскую карьеру</p>
+      <p>получил дисциплину на всю взрослую жизнь</p>
+    </div>
+
+    <div class="why-verdict rv">
+      <p><strong style="color:var(--ink)">Любой из этих ответов — правильный.</strong> Проблема начинается тогда, когда цель одна, а действия совсем другие. Родители мечтают о профессиональном спорте — но выбирают студию, которая работает как кружок для общего развития. Или ребёнку нужен спокойный кружок для удовольствия — а его отдают в среду с постоянными соревнованиями и высоким давлением.</p>
+      <p>Ни один из этих вариантов нельзя назвать плохим.</p>
+      <p class="core">Плохим становится <em>несовпадение</em> между вашей целью и выбранным путём. Именно отсюда рождается большинство разочарований — и потерянных лет.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. ПРАВИЛЬНЫЕ ВОПРОСЫ ============ -->
+<section class="dark">
+  <div class="wrap">
+    <div class="kicker rv"><span class="num">02</span> С чего начинается Stage Lab</div>
+    <h2 class="rv d1">Не с выбора студии. Не с выбора агента.<br>С <em class="serif" style="font-style:italic;color:var(--gold)">правильных вопросов</em></h2>
+
+    <div class="qgrid rv d2">
+      <div class="q"><p>«Какого тренера выбрать — и как понять, что он действительно развивает моего ребёнка?»</p><span>Не по регалиям на стене, а по тому, что меняется в ребёнке.</span></div>
+      <div class="q"><p>«Есть ли прогресс — или ребёнок годами повторяет одно и то же?»</p><span>Что вообще считать нормальным результатом через полгода? Через год?</span></div>
+      <div class="q"><p>«Почему именно моего ребёнка должны заметить?»</p><span>Талантливых детей очень много. Заметных — значительно меньше.</span></div>
+      <div class="q"><p>«Стоит ли ребёнку пробовать актёрство?»</p><span>И что оно даст, даже если он никогда не станет профессиональным актёром.</span></div>
+    </div>
+
+    <div class="no-answer rv">
+      <p class="big">Иногда правильный ответ — <em>«актёрство вам не нужно»</em>. И это тоже успешная консультация.</p>
+      <p class="small">Родители не обязаны знать ответы на все вопросы. Но они должны знать, какие вопросы задавать. Именно этому учит Stage Lab — и именно поэтому наша консультация не заканчивается продажей, если продавать нечего.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. ИСТОРИЯ ============ -->
+<section class="light">
+  <div class="wrap">
+    <div class="kicker rv"><span class="num">03</span> Почему я создала Stage Lab</div>
+    <div class="story-open rv d1">
+      <p class="iam">Я — Юлия Растворцева. Но важнее другое: <em>я мама</em>, которая провела своего сына одновременно через две невероятно конкурентные индустрии — профессиональное актёрство и спортивные бальные танцы в США.</p>
+      <p>Как многие родители, я совершала ошибки.</p>
+    </div>
+
+    <div class="mistakes rv d2">
+      <p>Я доверяла не тем людям.</p>
+      <p>Я тратила деньги там, где не следовало.</p>
+      <p>Я верила обещаниям, которые так и не стали результатом.</p>
+      <p>Я думала, что проблема — в ребёнке.</p>
+    </div>
+
+    <div class="turn rv">
+      <p>Долгое время Николас занимался в студиях, где он усердно работал — но по-настоящему не рос. Всё изменилось, когда я <strong>перестала следовать чужим советам и начала разбираться, как индустрия работает на самом деле</strong>: система, документы, материалы, правильная подача.</p>
+    </div>
+
+    <div class="story-res rv d1">
+      <div class="cell">
+        <div class="big">8 <small>лет</small></div>
+        <p>Финалист U.S. National Ballroom Championships — в восемь лет.</p>
+      </div>
+      <div class="cell">
+        <div class="big">65+</div>
+        <p>Профессиональных актёрских проектов — параллельно с танцами.</p>
+      </div>
+      <div class="cell">
+        <div class="big serif" style="font-size:clamp(24px,2.6vw,32px);line-height:1.25">Без агента</div>
+        <p>Большинство возможностей пришли из понимания системы, правильных материалов и последовательных решений.</p>
+      </div>
+    </div>
+
+    <p class="story-discovery rv">Но настоящее открытие было не в том, что ребёнок занимался двумя направлениями. А в том, что именно <strong>сочетание</strong> этих направлений сделало его значительно сильнее в каждом из них. Эта идея стала основой <strong>Stage Lab</strong>.</p>
+  </div>
+</section>
+
+<!-- ============ 5. МЕТОД: ВЗАИМНОЕ УСИЛЕНИЕ ============ -->
+<section class="dark">
+  <div class="wrap">
+    <div class="kicker rv"><span class="num">04</span> Авторская методика</div>
+    <h2 class="rv d1">Актёрство усиливает спорт.<br>Спорт усиливает <em class="serif" style="font-style:italic;color:var(--gold)">актёрство</em></h2>
+    <p class="method-lead rv d2">Большинство родителей развивают направления отдельно — кружок здесь, секция там, каждое само по себе. Я научилась <strong>соединять их так, чтобы они усиливали друг друга</strong>. Это работает в обе стороны:</p>
+
+    <div class="mirror rv d2">
+      <div class="mirror-col">
+        <div class="mlabel">Спорт и танцы дают актёру</div>
+        <h3>Тело, дисциплину, характер</h3>
+        <ul>
+          <li>дисциплину и привычку к работе</li>
+          <li>контроль тела и осанку</li>
+          <li>работу под давлением</li>
+          <li>привычку к выступлениям</li>
+          <li>конкурентный опыт и стрессоустойчивость</li>
+          <li>способность быстро учиться</li>
+        </ul>
+      </div>
+      <div class="mirror-col">
+        <div class="mlabel">Актёрство даёт спортсмену</div>
+        <h3>Камеру, историю, харизму</h3>
+        <ul>
+          <li>уверенность перед людьми и камерой</li>
+          <li>интервью и публичность</li>
+          <li>эмоциональный интеллект</li>
+          <li>умение рассказывать свою историю</li>
+          <li>коммуникацию и лидерство</li>
+          <li>естественность в кадре — и в жизни</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="any-list rv">
+      <span>танцы</span><span>гимнастика</span><span>фигурное катание</span><span>теннис</span><span>музыка</span><span>вокал</span><span>боевые искусства</span><span>плавание</span><span>любой спорт</span>
+    </div>
+
+    <p class="method-note rv">Важно не направление — важно, чтобы оно усиливало ребёнка. <strong>Ребёнок становится интереснее именно тогда, когда его сильные стороны соединены в одну стратегию</strong>, а не существуют параллельно.</p>
+  </div>
+</section>
+
+<!-- ============ 6. ПОЧЕМУ АКТЁРСТВО ============ -->
+<section class="light">
+  <div class="wrap">
+    <div class="kicker rv"><span class="num">05</span> Почему актёрство</div>
+    <h2 class="rv d1">Мы не продаём актёрство как путь в кино.<br>Это <em class="serif" style="font-style:italic;color:var(--gold-deep)">инструмент развития</em> современного ребёнка</h2>
+    <p class="flag-lead rv d2">Сегодня побеждает не просто талантливый человек — побеждает интересный. Даже если ваш ребёнок никогда не станет профессиональным актёром, эти навыки останутся с ним в любой сфере жизни — в спорте, музыке, учёбе, будущей профессии:</p>
+
+    <div class="skills rv d2">
+      <div class="skill"><div class="n">01</div><div><p>Уверенность перед людьми</p><span>Сцена и камера учат спокойно быть в центре внимания.</span></div></div>
+      <div class="skill"><div class="n">02</div><div><p>Грамотная речь</p><span>Дикция, интонация, умение держать мысль.</span></div></div>
+      <div class="skill"><div class="n">03</div><div><p>Эмоциональный интеллект</p><span>Понимать себя и считывать других.</span></div></div>
+      <div class="skill"><div class="n">04</div><div><p>Умение проходить интервью</p><span>Кастинг — это собеседование. Навык на всю жизнь.</span></div></div>
+      <div class="skill"><div class="n">05</div><div><p>Работа перед камерой</p><span>Базовая грамотность мира, где всё — видео.</span></div></div>
+      <div class="skill"><div class="n">06</div><div><p>Умение держать внимание</p><span>Выступления, презентации, контент.</span></div></div>
+      <div class="skill"><div class="n">07</div><div><p>Дисциплина</p><span>Подготовка, повторение, ответственность за результат.</span></div></div>
+      <div class="skill"><div class="n">08</div><div><p>Коммуникация</p><span>Со взрослыми профессионалами — на равных и с уважением.</span></div></div>
+    </div>
+
+    <p class="modern-note rv">Эта инвестиция окупается <strong>при любом исходе</strong> — именно поэтому актёрское мастерство сегодня важно для спортсменов, музыкантов, будущих предпринимателей — для любого ребёнка.</p>
+  </div>
+</section>
+
+<!-- ============ 7. БРЕНД РЕБЁНКА ============ -->
+<section class="dark">
+  <div class="wrap">
+    <div class="kicker rv"><span class="num">06</span> Личный бренд ребёнка</div>
+    <div class="brand-triptych rv d1">
+      <p>Сегодня недостаточно быть <em>талантливым</em>.</p>
+      <p>Нужно быть <em>заметным</em>.</p>
+      <p>Нужно, чтобы ребёнка <em>запоминали</em>.</p>
+    </div>
+    <p class="brand-lead rv d2" style="margin-top:44px">Каждый день агентства получают сотни заявок, а кастинг-директора просматривают сотни фотографий и видео. Запоминают не «ещё одного талантливого ребёнка» — запоминают того, чью историю видно. Мы учим родителей создавать не искусственную популярность, а <strong>сильный личный бренд ребёнка</strong>, построенный на том, что уже делает его уникальным:</p>
+
+    <div class="brand-list rv d2">
+      <p>как выделиться среди тысяч похожих заявок</p>
+      <p>как стать заметным для кастинг-директора</p>
+      <p>как стать интересным агентству</p>
+      <p>как стать интересным брендам и аудитории</p>
+      <p>как соединить сильные стороны в одну историю</p>
+      <p>как сделать так, чтобы ребёнка запоминали</p>
+    </div>
+
+    <p class="brand-honest rv">Мы не делаем ребёнка другим. Мы помогаем увидеть и усилить то, что уже делает его уникальным, — и профессионально показать это тем, кто принимает решения.</p>
+  </div>
+</section>
+
+<!-- ============ 8. ФЛАГМАНСКАЯ ЭКСПЕРТИЗА ============ -->
+<section class="light">
+  <div class="wrap">
+    <div class="kicker rv"><span class="num">07</span> Флагманская экспертиза</div>
+    <h2 class="rv d1">Актёрская индустрия США —<br>то, что <em class="serif" style="font-style:italic;color:var(--gold-deep)">нельзя получить из YouTube</em></h2>
+    <p class="flag-lead rv d2">Если ваш путь — актёрство, вы быстро обнаружите: у этой индустрии нет единой точки входа. Зато есть тысячи желающих продать вам «быстрый старт». Вот с чем родители сталкиваются на самом деле:</p>
+
+    <div class="pains">
+      <article class="pain rv">
+        <div class="idx">I</div>
+        <h3>«Кому вообще можно доверять?»</h3>
+        <blockquote>«I've been looking everywhere and ask everyone but no help — most of the websites are scum»</blockquote>
+        <cite>— мама, комментарий под видео о поиске агента в LA, 02:14 ночи</cite>
+        <p>Родитель месяцами гуглит, читает противоречивые форумы и не может отличить настоящего профессионала от человека с красивым Instagram-профилем. Я тоже платила не тем людям — поэтому теперь учу отличать.</p>
+      </article>
+      <article class="pain rv d1">
+        <div class="idx">II</div>
+        <h3>Деньги потрачены — результата ноль</h3>
+        <blockquote>«Waste of time and money… never hear back»</blockquote>
+        <cite>— из отзывов родителей о школах и агентствах</cite>
+        <p>Поток писем о «кастингах», после которых — тишина. Занятия без стратегии съедают бюджет и энтузиазм ребёнка, не создавая системного результата.</p>
+      </article>
+      <article class="pain rv d2">
+        <div class="idx">III</div>
+        <h3>Бюрократический замкнутый круг</h3>
+        <blockquote>«Coogan Account, Work Permit — я запуталась и отложила это "на потом"»</blockquote>
+        <cite>— из интервью с родителем</cite>
+        <p>Банк не открывает Coogan Account без контракта. Агентство не подписывает контракт без Coogan Account. Без знания системы этот круг не разорвать.</p>
+      </article>
+    </div>
+
+    <p class="flag-lead rv" style="margin-top:56px">Моя компетенция — не актёрские кружки. Моя компетенция — настоящая американская актёрская индустрия, весь путь семьи от первого вопроса до съёмочной площадки:</p>
+    <div class="flag-list rv d1">
+      <p>Как работает индустрия и как думают кастинг-директора</p>
+      <p>Агентства и менеджеры: когда нужен агент, а когда нет</p>
+      <p>Self-submissions и платформы, которые реально работают</p>
+      <p>Кастинговый процесс: audition, callback, booking</p>
+      <p>Съёмочный день: fitting, call sheet, этикет площадки</p>
+      <p>Work Permit, Coogan Account, контракты, payroll</p>
+      <p>Материалы: headshots, рилы, resume, cover letters</p>
+      <p>Коммуникация с индустрией — и как не потерять репутацию</p>
+    </div>
+
+    <div class="vertical rv">
+      <div class="vlabel">Отдельная экспертиза</div>
+      <h3>Вертикальные сериалы — новый рынок, другая техника</h3>
+      <p>Вертикальные сериалы — уже отдельная индустрия: другой ритм, другие крупные планы, другой способ существования в кадре. Мы понимаем эти различия и помогаем готовить ребёнка именно под тот рынок, где он хочет работать.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9. КОМАНДА ============ -->
+<section class="dark">
+  <div class="wrap">
+    <div class="kicker rv"><span class="num">08</span> Команда</div>
+    <h2 class="rv d1">Успех ребёнка не строится одним человеком.<br>Его строит <em class="serif" style="font-style:italic;color:var(--gold)">команда</em></h2>
+    <p class="team-lead rv d2">Acting coach, тренер, педагоги, фотограф, self-tape coach, агент, менеджер — и в центре этой команды всегда <strong>родители и сам ребёнок</strong>. Stage Lab учит собирать эту команду правильно: под цели вашей семьи, а не по принципу «самый известный» или «самый дорогой».</p>
+
+    <div class="team-roles rv d2">
+      <span class="you">родители</span><span class="you">ребёнок</span><span>acting coach</span><span>тренер / dance coach</span><span>музыкальный педагог</span><span>фотограф</span><span>self-tape coach</span><span>агент</span><span>менеджер</span><span>кастинг-директора</span><span>продакшн</span>
+    </div>
+
+    <div class="strategist rv">
+      <p>В актёрской индустрии родитель фактически становится менеджером своего ребёнка — именно он принимает самые важные решения. Мы учим принимать их осознанно, оставаясь для ребёнка мамой и папой, а не начальником.</p>
+    </div>
+
+    <div class="coaches rv">
+      <div class="clabel">Доступ следующего уровня</div>
+      <h3>Проверенные коучи — когда ребёнку нужен следующий уровень</h3>
+      <p>На определённом этапе ребёнку нужен уже не «кружок», а профессиональная подготовка под конкретную задачу: theatrical или commercial, комедия или драма, вертикальные сериалы или полный метр. <strong>За годы в индустрии я выстроила отношения с профессионалами, которым доверяю сама</strong> — включая коучей, работающих с известными голливудскими актёрами и крупными голливудскими проектами. Когда это действительно соответствует стратегии ребёнка, я могу рекомендовать и организовать такую работу.</p>
+      <p class="fine">Это не гарантия результата и не обещание успеха — это часть моей профессиональной сети и возможностей, доступ к которым экономит семьям годы и тысячи долларов проб и ошибок.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10. PRS ============ -->
+<section class="light-deep">
+  <div class="wrap">
+    <div class="kicker rv"><span class="num">09</span> Professional Representation Strategy</div>
+    <h2 class="prs-quote rv d1">Родители покупают не количество писем.<br>Они покупают <em>спокойствие</em></h2>
+    <p class="prs-lead rv d2">Одно из самых больших заблуждений индустрии — что достаточно разослать заявки в агентства. Это не так. Мы продаём не подачи — а стратегию выхода вашего ребёнка на рынок, где каждая рекомендация имеет последовательность: когда, почему, готов ли ребёнок, готовы ли материалы — и не будет ли это ошибкой именно сейчас.</p>
+
+    <div class="prs-parts">
+      <div class="prs-part rv">
+        <div class="label">Этап 1 · Фундамент</div>
+        <h3>Документы и готовность</h3>
+        <p>Work Permit, Coogan Account, честная оценка готовности ребёнка. Ничего не отправляем, пока не выстроен легальный и профессиональный фундамент.</p>
+      </div>
+      <div class="prs-part rv d1">
+        <div class="label">Этап 2 · Материалы</div>
+        <h3>Упаковка и бренд</h3>
+        <p>Хедшоты (commercial + theatrical), рилы, история ребёнка — материалы, которые агентство действительно откроет и запомнит.</p>
+      </div>
+      <div class="prs-part rv d2">
+        <div class="label">Этап 3 · Выход на рынок</div>
+        <h3>Подача и сопровождение</h3>
+        <p>30+ carefully selected submissions — каждое агентство отобрано под возраст, типаж и цели ребёнка. Полный отчёт по каждой подаче + сопровождение после.</p>
+      </div>
+    </div>
+
+    <div class="prs-contrast rv">
+      <p>Это не веерная рассылка в пустоту. Каждая подача — отобрана, персонализирована и задокументирована. Я не могу гарантировать встречи или представительство — но гарантирую профессиональный процесс и стратегию, построенную под вашего ребёнка.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11. ЛЕСТНИЦА УСЛУГ ============ -->
+<section class="dark" id="services">
+  <div class="wrap">
+    <div class="kicker rv"><span class="num">10</span> Как начать</div>
+    <h2 class="rv d1">Первый шаг — бесплатный.<br>Дальше — по вашей готовности</h2>
+
+    <div class="ladder rv d2">
+      <div class="rung" id="diagnostic">
+        <div class="stage">Шаг 0</div>
+        <div>
+          <h3>Диагностическая карта</h3>
+          <p class="desc">Ответьте на 12 вопросов — и увидите, где сильные стороны вашей ситуации, где риски, а где пробелы. Мы не проверяем талант — мы проверяем готовность.</p>
+        </div>
+        <div class="price">Бесплатно<small>интерактивная диагностика</small></div>
+      </div>
+      <div class="rung">
+        <div class="stage">Шаг 1</div>
+        <div>
+          <h3>Strategy Session</h3>
+          <p class="desc">90 минут лично: 30 минут разбираем ваш путь и прошлый опыт, 60 минут строим персональную дорожную карту. Для семей, которым нужны ответы на конкретные вопросы.</p>
+        </div>
+        <div class="price">$250</div>
+      </div>
+      <div class="rung">
+        <div class="stage">Шаг 2</div>
+        <div>
+          <h3>Strategy Intensive</h3>
+          <p class="desc">Пять личных стратегических сессий по 90 минут. Для семей, которым нужна более глубокая поддержка на дистанции.</p>
+        </div>
+        <div class="price" style="font-size:20px;font-family:'Golos Text',sans-serif;color:var(--muted-dark)">price upon request</div>
+      </div>
+      <div class="rung flagship">
+        <div class="stage">Флагман</div>
+        <div>
+          <h3>Stage Lab Navigator Sprint</h3>
+          <p class="desc">Полное сопровождение под ключ — Professional Representation Strategy от фундамента до выхода на рынок:</p>
+          <div class="flag-includes">
+            <span>5 личных коучинг-сессий</span>
+            <span>Work Permit — полное оформление</span>
+            <span>Coogan Account — под ключ</span>
+            <span>Industry education</span>
+            <span>Хедшоты: commercial + theatrical</span>
+            <span>Рилы: commercial + theatrical</span>
+            <span>Профессиональная подготовка</span>
+            <span>30+ carefully selected submissions</span>
+            <span>Полный отчёт по подачам</span>
+            <span>45 дней личного сопровождения</span>
+          </div>
+        </div>
+        <div class="price">$3,599<small>launch-цена · далее $4,299</small></div>
+      </div>
+      <div class="rung">
+        <div class="stage">Advisory</div>
+        <div>
+          <h3>Stage Lab Advisory</h3>
+          <p class="desc">Долгосрочное сопровождение семьи на 6–12 месяцев: стратегия, команда, материалы, решения — по мере того, как путь ребёнка развивается.</p>
+        </div>
+        <div class="price" style="font-size:20px;font-family:'Golos Text',sans-serif;color:var(--muted-dark)">по заявке</div>
+      </div>
+    </div>
+
+    <div class="alacarte rv">
+      <div class="cap">À la carte — если нужно точечно</div>
+      <div class="ala-row"><div class="what">Professional Headshots</div><div class="p">$400</div></div>
+      <div class="ala-row"><div class="what">Industry Package<span>хедшоты + commercial reel + theatrical reel</span></div><div class="p">$999</div></div>
+      <div class="ala-row"><div class="what">Agent Submission Service<span>только для профессионально подготовленных материалов: ревью, подбор, 30+ submissions, отчёт</span></div><div class="p">$600</div></div>
+      <div class="ala-row"><div class="what">Work Permit + Coogan Setup<span>done-for-you или с сопровождением</span></div><div class="p">$400</div></div>
+      <div class="ala-row"><div class="what">Childhood Story Film<span>кинематографичный фильм о пути вашего ребёнка — танцы, спорт, музыка или просто детство</span></div><div class="p">$1,750</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12. ГАРАНТИЯ ============ -->
+<section class="light-deep">
+  <div class="wrap-narrow">
+    <div class="kicker rv"><span class="num">11</span> Stage Lab Guarantee</div>
+    <h2 class="rv d1">Гарантия на всё, что зависит от нас</h2>
+
+    <div class="guarantee rv">
+      <div class="seal">
+        <svg viewBox="0 0 100 100" width="100%" height="100%" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <defs><path id="circ" d="M 50,50 m -35,0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0"/></defs>
+          <text fill="#c19a5b" font-size="10.5" letter-spacing="2.5" font-family="Golos Text, sans-serif"><textPath href="#circ" xlink:href="#circ">STAGE LAB GUARANTEE · MORE THAN TALENT · </textPath></text>
+        </svg>
+      </div>
+      <h3>Либо выполнено. Либо доделываем бесплатно. Либо возвращаем деньги</h3>
+      <p style="margin-bottom:14px;font-size:15.5px;color:var(--muted)">Если в рамках программы обещаны:</p>
+      <ul>
+        <li>Work Permit и Coogan Account</li>
+        <li>профессиональные материалы — фотографии и рилы</li>
+        <li>согласованные submissions</li>
+        <li>отчёт о выполненной работе</li>
+      </ul>
+      <p class="promise">— значит, они будут сделаны. Всё, что зависит от нас, — либо выполнено, либо мы доделываем бесплатно, либо возвращаем деньги за эту часть.</p>
+      <p class="honest">Мы не гарантируем роли, встречи или представительство — это единственное, что находится вне контроля любого честного участника индустрии. Обещание обратного было бы недостоверным — и это ровно та разница между нами и теми, кто пишет «guaranteed casting».</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13. FOUNDER'S PROMISE + CTA ============ -->
+<section class="final dark" id="cta">
+  <div class="wrap">
+    <div class="nots rv">
+      <p>Я не обещаю роли</p>
+      <p>Я не обещаю контракты</p>
+      <p>Я не обещаю известность</p>
+    </div>
+    <p class="fp rv d1">«Этого не может честно обещать никто. Но я могу обещать, что буду относиться к пути вашей семьи так же серьёзно, как относилась к пути собственного сына. Каждое решение, каждую рекомендацию и каждую возможность я буду оценивать так, словно речь идёт о моём ребёнке. <strong>Именно так я работаю. Именно поэтому существует Stage Lab.</strong>»</p>
+    <p class="fp-who rv d1">Юлия Растворцева · основательница Stage Lab</p>
+    <p class="manifest rv d2">Stage Lab помогает семьям принимать сильные решения в развитии ребёнка. Актёрство — наша главная экспертиза. Спорт, танцы и творчество — сферы, где работают те же принципы стратегии, выбора окружения и оценки прогресса. Мы не обещаем успех. Мы помогаем построить путь, который даёт ребёнку лучшие шансы раскрыть свой потенциал.</p>
+    <div class="cta-pair rv d3">
+      <a class="btn" href="#services">Strategy Session — $250</a>
+      <a class="btn-ghost" href="#diagnostic">Начать с бесплатной диагностики</a>
+    </div>
+    <p class="note rv d3">Каждая рекомендация основана на реальном опыте, а не на теории. Каждая стратегия строится под вашего ребёнка.</p>
+  </div>
+</section>
+
+<!-- ============ 14. FAQ ============ -->
+<section class="light">
+  <div class="wrap-narrow">
+    <div class="kicker rv"><span class="num">12</span> FAQ</div>
+    <h2 class="rv d1">Шесть честных ответов на шесть главных сомнений</h2>
+
+    <div class="faq rv">
+      <details>
+        <summary>«Это слишком дорого для нашего бюджета» <span class="pm">+</span></summary>
+        <div class="a">Скорее всего, вы уже инвестируете в развитие ребёнка — кружки, студии, разовые фотосессии — просто разрозненно и без стратегии. Stage Lab делает эти вложения системными. И начать можно с малого: бесплатная диагностическая карта покажет вашу ситуацию, а Strategy Session за $250 даст персональную дорожную карту — без обязательств идти дальше.</div>
+      </details>
+      <details>
+        <summary>«Мы уже пробовали похожее — не сработало» <span class="pm">+</span></summary>
+        <div class="a">Первая часть Strategy Session — разбор вашего прошлого опыта: что именно не сработало и почему. Чаще всего проблема не в ребёнке и не в идее, а в несовпадении цели и пути — либо в отсутствии системы. Я сама проходила через «не сработало» несколько раз, прежде чем разобралась, как всё устроено.</div>
+      </details>
+      <details>
+        <summary>«Мы не в США / далеко от Лос-Анджелеса» <span class="pm">+</span></summary>
+        <div class="a">Стратегические сессии, разбор документов, подготовка материалов и сопровождение проходят онлайн. География не блокирует работу — она лишь влияет на порядок шагов, который мы выстроим в вашей дорожной карте.</div>
+      </details>
+      <details>
+        <summary>«Может, ребёнок ещё не готов» <span class="pm">+</span></summary>
+        <div class="a">Именно для этого первый шаг — диагностика, а не дорогой пакет. Если рано — я так и скажу, и объясню, что делать до того момента, когда будет пора. Иногда правильный ответ — «не сейчас», и это тоже успешная консультация.</div>
+      </details>
+      <details>
+        <summary>«Не хотим давить на ребёнка и превращать детство в гонку» <span class="pm">+</span></summary>
+        <div class="a">Это ровно то, против чего построен Stage Lab. Мы не делаем ребёнка другим — мы помогаем увидеть и усилить то, что уже делает его уникальным. Стратегия строится вокруг ребёнка и его темпа: уверенность без давления, дисциплина без отнятого детства. Если я увижу признаки перегрузки — скажу прямо, даже если это означает притормозить.</div>
+      </details>
+      <details>
+        <summary>«Мы не про актёрство — мы про спорт / танцы / музыку» <span class="pm">+</span></summary>
+        <div class="a">Тем интереснее: методика Stage Lab построена на взаимном усилении направлений. Спорт даёт дисциплину, тело и характер; актёрские навыки дают камеру, интервью, публичность и личный бренд — то, что сегодня нужно и спортсмену, и музыканту. Актёрская индустрия — моя самая глубокая экспертиза, но Stage Lab начинается не с направления, а с вашей цели.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div class="brand">Stage<em>&nbsp;Lab</em></div>
+    <p>More Than Talent · Лендинг v4 · Июль 2026</p>
+  </div>
+</footer>
+
+<script>
+if('IntersectionObserver' in window){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}});
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+}else{
+  document.querySelectorAll('.rv').forEach(el=>el.classList.add('on'));
+}
+</script>
+</body>
+</html>
